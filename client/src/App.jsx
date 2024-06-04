@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AddUser from "./screens/Adduser";
+import { UpdateUser } from "./screens/UpdateUser";
+import DeleteUser from "./screens/DeleteUser";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -31,25 +33,31 @@ function App() {
   return (
     <>
       <BrowserRouter>
-    <Navbar setLogin={setIsLogin}/>
+        <Navbar setLogin={setIsLogin} />
         <Routes>
-          
           <Route path="/" element={<Home />} />
           <Route
             path="/viewUsers"
-            element={isLogin ? <Display /> : <Login  setLogin={setIsLogin}/>}
+            element={isLogin ? <Display /> : <Login setLogin={setIsLogin} />}
           />
           <Route
             path="/addUsers"
-            element={isLogin ? <AddUser /> : <Login  setLogin={setIsLogin}/>}
+            element={isLogin ? <AddUser /> : <Login setLogin={setIsLogin} />}
           />
-          <Route path="/addUsers" element={isLogin ? <Display /> : <Login  setLogin={setIsLogin}/>} />
+          <Route
+            path="/addUsers"
+            element={isLogin ? <Display /> : <Login setLogin={setIsLogin} />}
+          />
           <Route
             path="/updateUsers"
-            element={isLogin ? <Display /> : <Login  setLogin={setIsLogin}/>}
+            element={isLogin ? <UpdateUser /> : <Login setLogin={setIsLogin} />}
+          />
+          <Route
+            path="/deleteUsers"
+            element={isLogin ? <DeleteUser /> : <Login setLogin={setIsLogin} />}
           />
         </Routes>
-      <Footer company="SomeCompany" />
+        <Footer company="SomeCompany" />
       </BrowserRouter>
     </>
   );

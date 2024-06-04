@@ -6,10 +6,10 @@ function Login({ setLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  
+
   function setCookie(name, value, hoursToExpire, path = "/", sameSite = "Lax") {
     const expires = hoursToExpire
-      ? new Date(Date.now() + (3600000*10)).toUTCString()
+      ? new Date(Date.now() + 3600000 * 10).toUTCString()
       : "";
     document.cookie = `${name}=${encodeURIComponent(
       value
@@ -23,26 +23,35 @@ function Login({ setLogin }) {
     try {
       const response = await axios.post(
         "http://localhost:3000/login",
-        {
-          email,
-          password,
-        },
+        { email, password },
         { withCredentials: true }
       );
 
       if (response.status === 200) {
-    
         setMessage("Login successful");
-        setCookie('login', 'true', 10);
-        setLogin(true)
+        setCookie("login", "true", 10);
+        setLogin(true);
       } else {
         setMessage(response.data.msg || "Login failed");
       }
-      if (response.status === 400) {
-        setMessage(response.msg);
-      }
     } catch (error) {
-      setMessage("An error occurred. Please try again.");
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        if (error.response.status === 400) {
+          setMessage("Incorrect email or password");
+        } else {
+          setMessage(
+            error.response.data.msg || "An error occurred. Please try again."
+          );
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        setMessage("No response from the server. Please try again later.");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setMessage("An error occurred. Please try again.");
+      }
     }
   };
 

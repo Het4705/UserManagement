@@ -41,7 +41,7 @@ function UpdateForm({ user, setUpdate }) {
 
   return (
     <div className="mt-2">
-      <div className="flex flex-col md:flex-row justify-between">
+      <div className=" flex flex-col md:flex-row justify-between">
         <div className="md:w-1/2">
           <h3 className="text-xl text-white">Update Values</h3>
           <input

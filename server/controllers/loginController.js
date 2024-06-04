@@ -25,6 +25,7 @@ const login = async (req, res) => {
                     msg: "Error while comparing passwords."
                 });
             }
+            console.log(result)
 
             if (result) {
                 

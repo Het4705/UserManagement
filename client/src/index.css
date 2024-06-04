@@ -1,42 +1,146 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
 }
-body{
+
+
+
+body {
   background-color: black;
 }
 /* For Chrome, Safari, and Opera */
 .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* For IE, Edge, and Firefox */
-  .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-  
-  .glassmorphism {
-    backdrop-filter: blur(3px);
-    background: rgba(254, 254, 254, 0.06);
-    box-shadow: 1px 2px 1px rgb(255, 255, 255,0.1);
-    border: 2px solid rgba(236, 232, 232, 0.4);
-  }
-  
-  .glassmorphismBlue{
-    backdrop-filter: blur(3px);
-    background: rgba(5, 10, 40, 0.626);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 2px solid rgb(111, 115, 115);
-  }
-  
-  .fuchsia-500-shadow {
-    text-shadow: 3px 2px 1px rgba(192, 38, 211, 1); /* fuchsia-500 color */
-  }
-  .white-shadow {
-    text-shadow: 1px 1px 1px white; /* fuchsia-500 color */
-  }
+  display: none;
+}
+
+/* For IE, Edge, and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.custom-ease-out {
+  transition-timing-function: ease-out;
+  transition-duration: 0.2s;
+}
+
+
+.glassmorphism {
+  backdrop-filter: blur(3px);
+  background: rgba(254, 254, 254, 0.06);
+  box-shadow: 1px 2px 1px rgb(255, 255, 255, 0.1);
+  border: 2px solid rgba(236, 232, 232, 0.4);
+}
+
+.blueGradient {
+  background: radial-gradient(
+    926px at 2.7% 11%,
+    rgb(17, 29, 94) 0%,
+    rgb(178, 31, 102) 90%
+  );
+}
+
+.gradient2{
+  background-image: linear-gradient(to right,rgb(84, 9, 82) ,rgb(8, 51, 78));
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #e2e1ea, #7b8ffe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.5s ease;
+}
+.gradient-text:hover {
+  background: linear-gradient(to right, #5441eb, #fffffe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glassmorphismBlue {
+  backdrop-filter: blur(3px);
+  background: rgba(5, 10, 40, 0.626);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgb(111, 115, 115);
+}
+
+.fuchsia-500-shadow {
+  text-shadow: 3px 2px 1px rgba(192, 38, 211, 1); /* fuchsia-500 color */
+}
+
+.textShadow {
+  text-shadow: 3px 2px 1px rgb(30, 19, 32); /* fuchsia-500 color */
+}
+.white-shadow {
+  text-shadow: 1px 1px 1px white; /* fuchsia-500 color */
+}
+
+.user-card {
+  background-image: linear-gradient(
+    to right,
+    rgb(3, 33, 41),
+    rgba(8, 0, 41, 0.549)
+  );
+  border: #bdc3c7 solid 2px;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  color: #ecf0f1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition-timing-function: ease-out;
+
+  /* A litttttle slower on the way in */
+  transition: 0.50s;
+ 
+}
+
+.user-card:hover {
+  background-image: linear-gradient(
+    to right,
+    rgb(2, 38, 49),
+    rgba(8, 0, 41, 0.549)
+  );
+  border: #bdc3c7 solid 2px;
+  scale: 102.3%;
+  box-shadow: #7b8ffe 0px 1px 10px ;
+}
+.user-card__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-card__image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.user-card__name {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.user-card__email {
+  font-size: 1em;
+  color: #bdc3c7;
+  margin: 0;
+}
+
+.user-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-card__detail {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #34495e;
+  padding-bottom: 5px;
+}

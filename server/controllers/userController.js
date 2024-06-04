@@ -17,7 +17,7 @@ const addUser = async (req, res) => {
             location,
             role = "user",
             status = "active",
-            profilePicture = "example.jpg"
+            profilePicture = "https://res.cloudinary.com/dz9sl6uan/image/upload/v1716652857/userModuleUploads/kbhrnkhx3rsv7oboget8.jpg"
         } = req.body;
 
         if (!firstName || !lastName || !mobile || !email || !gender || !location) {
@@ -71,7 +71,6 @@ const addUser = async (req, res) => {
                             resolve(result);
                         }
                     });
-
                     // Convert buffer to stream
                     streamifier.createReadStream(req.file.buffer).pipe(stream);
                 });
@@ -90,7 +89,7 @@ const addUser = async (req, res) => {
         await newUser.save();
         console.log("newUser Added")
         res.status(201).json({
-            msg:"Success adding User"
+            msg: "Success adding User"
         });
     } catch (error) {
         if (error.code === 11000 && Result) {
@@ -108,6 +107,57 @@ const addUser = async (req, res) => {
     }
 };
 
+const getSearchedUser = async (req, res) => {
+    console.log(req.body);
+    try {
+        let user;
+        const {
+            email,
+            name
+        } = req.body;
+
+        if (!email && !name) {
+            console.log("Email or name not provided");
+            return res.status(400).json({
+                msg: "Email or Name not provided"
+            });
+        }
+
+        if (email) {
+            user = await User.findOne({
+                email: email
+            });
+            if (!user) {
+                return res.status(404).json({
+                    msg: "User not found"
+                });
+            }
+        } else {
+            user = await User.find({
+                $or: [{
+                        firstName: name
+                    },
+                    {
+                        lastName: name
+                    }
+                ]
+            });
+            if (user.length === 0) {
+                return res.status(404).json({
+                    msg: "User not found"
+                });
+            }
+        }
+
+        console.log(user);
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error fetching user(s):', error);
+        res.status(500).json({
+            msg: 'Server error'
+        });
+    }
+};
 
 
 const getUser = async (req, res) => {
@@ -207,22 +257,20 @@ const getUsersSortedByCreationDate = async (req, res) => {
     }
 };
 
-//Update Routes
-
-
 const updateUser = async (req, res) => {
-    console.log(req.query)
+    console.log("Updating User");
     const {
         userId,
         emailId
-    } = req.query; // coming from frontend once user select a particular user from display
-    if (!(userId || emailId)) {
-        console.log("Please provide either the userId or the email in query")
+    } = req.query; // coming from frontend once user selects a particular user from display
 
+    if (!(userId || emailId)) {
+        console.log("Please provide either the userId or the email in query");
         return res.status(400).json({
             message: 'Please provide either the userId or the email in query'
         });
     }
+
     const {
         firstName,
         lastName,
@@ -231,14 +279,12 @@ const updateUser = async (req, res) => {
         role = "user",
         gender,
         location,
-        profilePicture
+        // profilePicture = "https://res.cloudinary.com/dz9sl6uan/image/upload/v1716652857/userModuleUploads/kbhrnkhx3rsv7oboget8.jpg"
     } = req.body;
 
     try {
-        // Find the user by ID
+        // Find the user by ID or email
         let user;
-
-
         if (userId) {
             user = await User.findById(userId);
         } else {
@@ -249,27 +295,56 @@ const updateUser = async (req, res) => {
 
         // If user not found, return 404
         if (!user) {
-            console.log('User not found')
+            console.log('User not found');
             return res.status(404).json({
-
-                message: 'User not found'
+                msg: 'User not found'
             });
         }
 
         // Update user details
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.mobile = mobile;
-        user.email = email;
-        user.gender = gender;
-        user.location = location;
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.mobile = mobile || user.mobile;
+        user.email = email || user.email;
+        user.gender = gender || user.gender;
+        user.location = location || user.location;
         user.role = role;
-        user.status = "active"
+        user.status = "active";
 
+        let oldImagePublicId;
+        
+        if (req.file) {
+            console.log("here")
+            try {
+                console.log("Uploading image to Cloudinary");
 
-        // Update profile picture if provided
-        if (profilePicture) {
-            user.profilePicture = profilePicture;
+                const result = await new Promise((resolve, reject) => {
+                    const stream = cloudinary.uploader.upload_stream({
+                            folder: "userModuleUploads"
+                        },
+                        (error, result) => {
+                            if (error) {
+                                reject(error);
+                            } else {
+                                resolve(result);
+                            }
+                        }
+                    );
+
+                    // Convert buffer to stream
+                    streamifier.createReadStream(req.file.buffer).pipe(stream);
+                });
+
+                oldImagePublicId = user.profilePicture.split('/').slice(-1)[0].split('.')[0];
+                user.profilePicture = result.secure_url;
+            } catch (error) {
+                console.log("Error uploading image to Cloudinary: " + error);
+                return res.status(500).json({
+                    error: 'Error uploading image to Cloudinary'
+                });
+            }
+        } else  {
+            user.profilePicture = "https://res.cloudinary.com/dz9sl6uan/image/upload/v1716652857/userModuleUploads/kbhrnkhx3rsv7oboget8.jpg";
         }
 
         // Update the date of update
@@ -278,18 +353,30 @@ const updateUser = async (req, res) => {
         // Save the updated user
         await user.save();
 
+        if (oldImagePublicId) {
+            try {
+                await cloudinary.uploader.destroy(`userModuleUploads/${oldImagePublicId}`);
+                console.log(`Old image with public ID ${oldImagePublicId} deleted successfully`);
+            } catch (error) {
+                console.log(`Error deleting old image: ${error}`);
+            }
+        }
+
         res.status(200).json({
-            message: 'User updated successfully',
+            msg: 'User updated successfully',
             user
         });
 
     } catch (error) {
         console.error('Error updating user:', error);
         res.status(500).json({
-            message: 'Server error'
+            msg: 'Server error'
         });
     }
-}
+};
+
+
+
 const updateUserStatus = async (req, res) => {
     const {
         userId,
@@ -394,5 +481,6 @@ module.exports = {
     deleteUser,
     addUser,
     getUser,
-    getUsersSortedByCreationDate
+    getUsersSortedByCreationDate,
+    getSearchedUser
 }

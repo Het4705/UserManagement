@@ -78,7 +78,7 @@ function UserCard({ user }) {
   };
 
   return (
-    <div className=" min-w-[25%] bg-slate-900  p-2 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+    <div className=" min-w-[25%] bg-slate-900 gradientCard  p-2 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
       <img
         src={user.profilePicture}
         alt={`${user.firstName} ${user.lastName}`}
