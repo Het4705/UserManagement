@@ -39,7 +39,7 @@ const login = async (req, res) => {
                 const token = setUser(user); //setUser generates a token
                 console.log(token)
                 res.cookie('token', token, {
-                    domain: process.env.FRONTEND_URL, // Extract hostname to set the domain
+                    domain: process.env.FRONTEND_URL.hostname, // Extract hostname to set the domain
                     path: '/', // Cookie is accessible from all paths
                     expires: new Date(Date.now() + (3600000 * 10)), // Cookie expires in 10 hours
                     httpOnly: true, // Cookie is accessible only through HTTP requests, not JavaScript
