@@ -19,7 +19,7 @@ export const UpdateUser = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/search", {
+      const response = await fetch( "https://usermanagement-jmlw.onrender.com"+"/api/users/search", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -78,7 +78,7 @@ export const UpdateUser = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/api/users?emailId=${user.email}`,
+        `https://usermanagement-jmlw.onrender.com/api/users?emailId=${user.email}`,
         {
           method: "PUT",
           credentials: "include",

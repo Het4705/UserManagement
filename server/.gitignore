@@ -84,3 +84,4 @@ jspm_packages/
 # pm2 logs
 .pmx
 *.pm2
+.vercel

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import Display from "./screens/Display";
+import NotFound from "./components/NotFound"; // Import the NotFound component
 import Cookies from "js-cookie";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -56,6 +57,8 @@ function App() {
             path="/deleteUsers"
             element={isLogin ? <DeleteUser /> : <Login setLogin={setIsLogin} />}
           />
+          {/* Route for handling pages not explicitly defined */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer company="SomeCompany" />
       </BrowserRouter>

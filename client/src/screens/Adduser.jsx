@@ -2,6 +2,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 
+
+
 const AddUser = () => {
   const [imageFile, setImageFile] = useState(null); // Change to store File object
   const [msg, setMessage] = useState(null);
@@ -58,7 +60,7 @@ const AddUser = () => {
       formData.append("password", userData.password);
       formData.append("dob", userData.dob);
 
-      await axios.post("http://localhost:3000/api/users", formData, {
+      await axios.post( "https://usermanagement-jmlw.onrender.com/api/users", formData, {
         withCredentials: true,
       });
       setMessage("User data submitted successfully!"); // Set success message

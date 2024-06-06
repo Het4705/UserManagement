@@ -29,7 +29,7 @@ const login = async (req, res) => {
 
             if (result) {
                 
-                const token = setUser(user);// Assuming setUser generates a token
+                const token = setUser(user);//setUser generates a token
                 console.log(token)
                 res.cookie('token', token, {  
                     domain: 'localhost', // Cookie is valid for localhost

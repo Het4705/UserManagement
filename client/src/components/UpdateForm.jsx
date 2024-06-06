@@ -14,7 +14,7 @@ function UpdateForm({ user, setUpdate }) {
 
   const handleSubmit = async () => {
     try {
-      const url = "http://localhost:3000/api/Users?emailId=" + updatedUser.email;
+      const url = "https://usermanagement-jmlw.onrender.com/api/users?emailId=" + updatedUser.email;
       const response = await fetch(url, {
         method: 'PUT',
         headers: {

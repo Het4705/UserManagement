@@ -7,7 +7,7 @@ import search_icon from "../assets/search-icon.svg";
 function Navbar({ setLogin }) {
   const handleLogout = () => {
     axios
-      .post("http://localhost:3000/logout", {}, { withCredentials: true })
+      .post("https://usermanagement-jmlw.onrender.com/logout", {}, { withCredentials: true })
       .then((res) => {
         console.log("Logout successful, removing cookie");
         Cookies.remove("login", { path: "/" });

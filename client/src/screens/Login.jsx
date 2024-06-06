@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Footer from "../components/Footer";
+
 
 function Login({ setLogin }) {
+  console.log(import.meta.env.HOST)
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -22,7 +23,7 @@ function Login({ setLogin }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/login",
+        "https://usermanagement-jmlw.onrender.com"+"/login",
         { email, password },
         { withCredentials: true }
       );
@@ -30,6 +31,7 @@ function Login({ setLogin }) {
       if (response.status === 200) {
         setMessage("Login successful");
         setCookie("login", "true", 10);
+        console.log(response)
         setLogin(true);
       } else {
         setMessage(response.data.msg || "Login failed");
@@ -63,14 +65,15 @@ function Login({ setLogin }) {
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="shadow-lg mb-10 rounded-md  flex mt-[10vh] flex-col justify-around items-center bg-gray-900 p-5    "
+          className="shadow-md shadow-slate-700  border-slate-500 border-2  mb-10 rounded-md  flex mt-[10vh] flex-col justify-around items-center bg-slate-900 p-5    "
         >
-          <h2 className="text-2xl mb-5">Admin Login </h2>
+          <h2 className="text-2xl mb-2">Admin Login </h2>
+          <hr className="w-[80%] mb-3"></hr>
           <div>
             <label className="text-xl block">Email: </label>
 
             <input
-              className="rounded-md text-white bg-slate-800 mt-1 p-2"
+              className="  rounded-md text-white bg-black opacity-[70%] mt-1 p-1"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -81,7 +84,7 @@ function Login({ setLogin }) {
             <br></br>
             <label className="text-xl block">Password:</label>
             <input
-              className="rounded-md text-white mt-1 bg-slate-800 p-2"
+              className="rounded-md text-white mt-1 bg-black opacity-[70%]  p-1"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

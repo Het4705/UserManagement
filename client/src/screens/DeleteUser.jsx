@@ -17,7 +17,7 @@ export const DeleteUser = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3000/api/users/search", {
+      const response = await fetch("https://usermanagement-jmlw.onrender.com"+"/api/users/search", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -55,7 +55,7 @@ export const DeleteUser = () => {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/users?emailId=${user.email}`,
+        `https://usermanagement-jmlw.onrender.com/api/users?emailId=${user.email}`,
         {
           method: "DELETE",
           credentials: "include",

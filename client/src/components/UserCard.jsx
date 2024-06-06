@@ -46,7 +46,7 @@ function UserCard({ user }) {
   const handleSubmit = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/api/users?emailId=" + user.email,
+        "https://usermanagement-jmlw.onrender.com/api/users?emailId=" + user.email,
         {
           method: "PUT",
           credentials: "include",

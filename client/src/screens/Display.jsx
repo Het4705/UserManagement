@@ -28,7 +28,7 @@ function Display() {
   useEffect(() => {
     if (showUsers) {
       axios
-        .get("http://localhost:3000/api/users", { withCredentials: true })
+        .get( "https://usermanagement-jmlw.onrender.com"+"/api/users", { withCredentials: true })
         .then((res) => {
           console.log(res.data);
           setUserData(res.data); // Update state with fetched user data
