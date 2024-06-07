@@ -40,13 +40,11 @@ const login = async (req, res) => {
                 console.log(token)
                 const frontendUrl = new URL('https://user-management-topaz.vercel.app');
 
-res.cookie('token', token, {  
-    domain: frontendUrl.hostname, // Extract hostname to set the domain
-    path: '/', // Cookie is accessible from all paths
-    expires: new Date(Date.now() + (3600000 * 10)), // Cookie expires in 10 hours
-    httpOnly: true, // Cookie is accessible only through HTTP requests, not JavaScript
-    secure: true // Cookie is only sent over HTTPS
-});
+            res.cookie('token', token, {  
+                path: '/', // Cookie is accessible from all paths
+                expires: new Date(Date.now() + (3600000 * 10)), // Cookie expires in 10 hours
+                httpOnly: true, // Cookie is accessible only through HTTP requests, not JavaScript
+            });
 
 
 
