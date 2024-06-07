@@ -39,6 +39,7 @@ const login = async (req, res) => {
                 const token = setUser(user); //setUser generates a token
                 console.log("token generated");
                  res.cookie('token', token, {
+            domain:process.env.FRONTED_URL,
             path: '/',
             expires: new Date(Date.now() + (3600000 * 10)),
             httpOnly: true,
