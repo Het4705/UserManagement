@@ -37,14 +37,15 @@ const login = async (req, res) => {
             if (result) {
 
                 const token = setUser(user); //setUser generates a token
-                console.log(token)
-                const frontendUrl = new URL('https://user-management-topaz.vercel.app');
+                console.log("token generated");
+                 res.cookie('token', token, {
+            path: '/',
+            expires: new Date(Date.now() + (3600000 * 10)),
+            httpOnly: true,
+            secure: true, // Ensure cookie is only sent over HTTPS
+            sameSite: 'None' // Allows cross-site cookie sending
+        });
 
-            res.cookie('token', token, {  
-                path: '/', // Cookie is accessible from all paths
-                expires: new Date(Date.now() + (3600000 * 10)), // Cookie expires in 10 hours
-                httpOnly: true, // Cookie is accessible only through HTTP requests, not JavaScript
-            });
 
 
 
