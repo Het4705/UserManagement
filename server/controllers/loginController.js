@@ -37,6 +37,7 @@ const login = async (req, res) => {
             if (result) {
 
                 const token = setUser(user); //setUser generates a token
+<<<<<<< HEAD
                 console.log(token)
                 res.cookie('token', token, {
                     // domain: "localhost", // Extract hostname to set the domain
@@ -46,6 +47,29 @@ const login = async (req, res) => {
                     secure: false // Cookie is only sent over HTTPS
                 });
 
+=======
+                console.log("token generated");
+                 res.cookie('token', token, {
+            domain:process.env.FRONTED_URL,
+            path: '/',
+            expires: new Date(Date.now() + (3600000 * 10)),
+            httpOnly: true,
+            secure: true, // Ensure cookie is only sent over HTTPS
+            sameSite: 'None' // Allows cross-site cookie sending
+        });
+
+
+
+
+                
+                // res.cookie('token', token, {
+                //     domain: process.env.FRONTEND_URL.hostname, // Extract hostname to set the domain
+                //     path: '/', // Cookie is accessible from all paths
+                //     expires: new Date(Date.now() + (3600000 * 10)), // Cookie expires in 10 hours
+                //     httpOnly: true, // Cookie is accessible only through HTTP requests, not JavaScript
+                //     secure: true // Cookie is only sent over HTTPS
+                // });
+>>>>>>> 06d4d98e51750b61a9bc484c1ae80354cd5c6dfe
                 // Set the token in the cookie
                 return res.status(200).json({
                     msg: "Login successful."
