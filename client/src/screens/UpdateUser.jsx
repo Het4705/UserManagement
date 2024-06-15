@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserCard2 from "../components/UserCard2";
-
+import { useNavigate } from "react-router-dom";
 export const UpdateUser = () => {
   const [msg, setMsg] = useState("");
   const [userSelected, setUserSelected] = useState(false);
@@ -11,7 +11,7 @@ export const UpdateUser = () => {
     email: "",
     name: "",
   });
-
+  const navigate = useNavigate();
   const handleSearch = async () => {
     if (!userSearchData.email && !userSearchData.name) {
       alert("Please provide either email or name");
@@ -19,7 +19,7 @@ export const UpdateUser = () => {
     }
 
     try {
-      const response = await fetch( "https://usermanagement-jmlw.onrender.com"+"/api/users/search", {
+      const response = await fetch("https://usermanagement-jmlw.onrender.com/api/users/search", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -69,9 +69,13 @@ export const UpdateUser = () => {
 
   const handleUpdate = async () => {
     const formData = new FormData();
+
+    // Append the other updateData fields to the formData
     for (const key in updateData) {
       formData.append(key, updateData[key]);
     }
+
+    // Conditionally append the profile picture if it has been selected
     if (profilePicture) {
       formData.append("profilePicture", profilePicture);
     }
@@ -90,6 +94,9 @@ export const UpdateUser = () => {
 
       if (response.ok) {
         setMsg("User updated successfully");
+        setTimeout(() => {
+          navigate("/viewUsers");
+        }, 2000);
       } else {
         setMsg(data.msg || "Update failed");
       }

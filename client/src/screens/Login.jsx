@@ -23,7 +23,7 @@ function Login({ setLogin }) {
 
     try {
       const response = await axios.post(
-        "https://usermanagement-jmlw.onrender.com"+"/login",
+        "https://usermanagement-jmlw.onrender.com/login",
         { email, password },
         { withCredentials: true }
       );

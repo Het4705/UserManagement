@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UserCard2 from "../components/UserCard2";
+import { useNavigate } from "react-router-dom";
 
 export const DeleteUser = () => {
   const [msg, setMsg] = useState("");
@@ -9,6 +10,7 @@ export const DeleteUser = () => {
     email: "",
     name: "",
   });
+ const navigate=useNavigate()
 
   const handleSearch = async () => {
     if (!userSearchData.email && !userSearchData.name) {
@@ -17,7 +19,7 @@ export const DeleteUser = () => {
     }
 
     try {
-      const response = await fetch("https://usermanagement-jmlw.onrender.com"+"/api/users/search", {
+      const response = await fetch("https://usermanagement-jmlw.onrender.com/api/users/search", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -69,6 +71,9 @@ export const DeleteUser = () => {
         setUserSelected(false);
         setUser({});
         setUserSearchData({ email: "", name: "" });
+        setTimeout(()=>{
+          navigate("/viewUsers");
+        },2000)
       } else {
         setMsg(data.msg || "Delete failed");
       }

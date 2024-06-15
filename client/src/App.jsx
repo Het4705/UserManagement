@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import AddUser from "./screens/Adduser";
 import { UpdateUser } from "./screens/UpdateUser";
 import DeleteUser from "./screens/DeleteUser";
+import UserPage from "./screens/UserPage";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -34,7 +35,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar setLogin={setIsLogin} />
+        <Navbar isLogin={isLogin} setLogin={setIsLogin} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -57,6 +58,11 @@ function App() {
             path="/deleteUsers"
             element={isLogin ? <DeleteUser /> : <Login setLogin={setIsLogin} />}
           />
+          <Route
+            path="/user"
+            element={isLogin ? <UserPage /> : <Login setLogin={setIsLogin} />}
+          />
+
           {/* Route for handling pages not explicitly defined */}
           <Route path="*" element={<NotFound />} />
         </Routes>

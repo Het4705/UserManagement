@@ -18,7 +18,7 @@ function UserCard({ user }) {
   const handleDelete = () => {
     try {
       axios
-        .delete("http://localhost:3000/api/users?emailId=" + user.email, {
+        .delete("https://usermanagement-jmlw.onrender.com/api/users?emailId=" + user.email, {
           withCredentials: true,
         })
         .then(() => {
@@ -78,7 +78,7 @@ function UserCard({ user }) {
   };
 
   return (
-    <div className=" min-w-[25%] bg-slate-900 gradientCard  p-2 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
+    <div className="min-w-[25%] bg-slate-900 gradientCard  p-2 rounded-lg shadow-lg transform transition duration-500 hover:scale-105">
       <img
         src={user.profilePicture}
         alt={`${user.firstName} ${user.lastName}`}

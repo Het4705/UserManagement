@@ -7,8 +7,6 @@
   box-sizing: border-box;
 }
 
-
-
 body {
   background-color: black;
 }
@@ -46,6 +44,14 @@ body {
 
 .gradient2{
   background-image: linear-gradient(to right,rgb(84, 9, 82) ,rgb(8, 51, 78));
+}
+
+.gradient3{
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  border: solid rgba(146, 134, 134, 0.574) 2px;
+  box-shadow:2px 2px 2px rgb(91, 77, 89)  ;
 }
 
 .gradient-text {
@@ -143,4 +149,41 @@ body {
   justify-content: space-between;
   border-bottom: 1px solid #34495e;
   padding-bottom: 5px;
+}
+
+
+/* In your CSS file or style block */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-container .tooltip-text {
+  visibility: hidden;
+  width: 60px; /* Adjust as needed */
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the icon */
+  left: 50%;
+  margin-left: -30px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.75rem; /* Adjust size as needed */
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+#root{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }

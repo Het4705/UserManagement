@@ -259,10 +259,7 @@ const getUsersSortedByCreationDate = async (req, res) => {
 
 const updateUser = async (req, res) => {
     console.log("Updating User");
-    const {
-        userId,
-        emailId
-    } = req.query; // coming from frontend once user selects a particular user from display
+    const { userId, emailId } = req.query; // coming from frontend once user selects a particular user from display
 
     if (!(userId || emailId)) {
         console.log("Please provide either the userId or the email in query");
@@ -271,16 +268,7 @@ const updateUser = async (req, res) => {
         });
     }
 
-    const {
-        firstName,
-        lastName,
-        mobile,
-        email,
-        role = "user",
-        gender,
-        location,
-        // profilePicture = "https://res.cloudinary.com/dz9sl6uan/image/upload/v1716652857/userModuleUploads/kbhrnkhx3rsv7oboget8.jpg"
-    } = req.body;
+    const { firstName, lastName, mobile, email, role = "user", gender, location } = req.body;
 
     try {
         // Find the user by ID or email
@@ -288,17 +276,13 @@ const updateUser = async (req, res) => {
         if (userId) {
             user = await User.findById(userId);
         } else {
-            user = await User.findOne({
-                email: emailId
-            });
+            user = await User.findOne({ email: emailId });
         }
 
         // If user not found, return 404
         if (!user) {
             console.log('User not found');
-            return res.status(404).json({
-                msg: 'User not found'
-            });
+            return res.status(404).json({ msg: 'User not found' });
         }
 
         // Update user details
@@ -312,16 +296,17 @@ const updateUser = async (req, res) => {
         user.status = "active";
 
         let oldImagePublicId;
-        
+
         if (req.file) {
-            console.log("here")
+            // If a new file is provided, upload it to Cloudinary
+            console.log("New profile picture provided");
+
             try {
                 console.log("Uploading image to Cloudinary");
 
                 const result = await new Promise((resolve, reject) => {
-                    const stream = cloudinary.uploader.upload_stream({
-                            folder: "userModuleUploads"
-                        },
+                    const stream = cloudinary.uploader.upload_stream(
+                        { folder: "userModuleUploads" },
                         (error, result) => {
                             if (error) {
                                 reject(error);
@@ -335,7 +320,12 @@ const updateUser = async (req, res) => {
                     streamifier.createReadStream(req.file.buffer).pipe(stream);
                 });
 
-                oldImagePublicId = user.profilePicture.split('/').slice(-1)[0].split('.')[0];
+                // Get the public ID of the old image
+                oldImagePublicId = user.profilePicture
+                    .split('/').pop() // Get the last part of the URL
+                    .split('.')[0];   // Remove the file extension
+
+                // Update the profile picture URL
                 user.profilePicture = result.secure_url;
             } catch (error) {
                 console.log("Error uploading image to Cloudinary: " + error);
@@ -343,9 +333,7 @@ const updateUser = async (req, res) => {
                     error: 'Error uploading image to Cloudinary'
                 });
             }
-        } else  {
-            user.profilePicture = "https://res.cloudinary.com/dz9sl6uan/image/upload/v1716652857/userModuleUploads/kbhrnkhx3rsv7oboget8.jpg";
-        }
+        } 
 
         // Update the date of update
         user.updatedAt = new Date();
@@ -354,6 +342,7 @@ const updateUser = async (req, res) => {
         await user.save();
 
         if (oldImagePublicId) {
+            // Delete the old image from Cloudinary if it was replaced
             try {
                 await cloudinary.uploader.destroy(`userModuleUploads/${oldImagePublicId}`);
                 console.log(`Old image with public ID ${oldImagePublicId} deleted successfully`);
@@ -374,7 +363,6 @@ const updateUser = async (req, res) => {
         });
     }
 };
-
 
 
 const updateUserStatus = async (req, res) => {
